@@ -21,8 +21,8 @@ module Little
     def post(resource, data, signature_keys)
       sender.post_request(resource, data, signature_keys)
     end
-    def get(resource, data, signature_keys)
-      sender.make_request(:get, resource, data, signature_keys)
+    def get(resource, data, signature_keys = nil)
+      sender.get_request(resource, data, signature_keys)
     end
 
   end

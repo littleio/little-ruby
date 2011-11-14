@@ -32,20 +32,20 @@ describe 'sender' do
     sender.get_request(:test, {}, nil)  
   end
   
-  it "signs a post request with all values" do
+  it "does not sigm a post request if no key is specified" do
     setup_configuration({:api_key => 'the-key', :api_secret => 'shhh'})
     stub_http(:post).should_receive(:post) do |url, data, headers|
-      data.should include('sig=02cefd8d116f09e8532cea0ba68349c4f7a96fdb')
+      data.should_not include('sig=')
       SuccessResponse.blank
     end
     sender = Little::Sender.new(@configuration)
     sender.post_request(:test, {:data => '2'}, nil)  
   end
   
-  it "signs a get request with all values" do
+  it "does not sign a request if no keys are specified" do
     setup_configuration({:api_key => 'the-key2', :api_secret => 'sh2'})
     stub_http(:get).should_receive(:get) do |url, headers|
-      url.should include('sig=dc8ded1987513d805452f441e8eee3fa4c116e0d')
+      url.should_not include('sig=')
       SuccessResponse.blank
     end
     Little::Sender.new(@configuration).get_request(:test, {:leto => 'ghanima'}, nil)  
@@ -149,6 +149,9 @@ describe 'sender' do
       @code = 200
       @body = body
     end
+    def[](key)
+      return 'application/json'
+    end
     
     def self.blank
       SuccessResponse.new('{}')
@@ -161,6 +164,9 @@ describe 'sender' do
     def initialize(code, body)
       @code = code
       @body = body
+    end
+    def[](key)
+      return 'application/json'
     end
   end
 end

@@ -34,16 +34,17 @@ module Little
     end
     def complete_data(data, signature_keys)
       data[:key] = @configuration.api_key
-      signature_keys = signature_keys.nil? ? data.keys : signature_keys << :key
+      return if signature_keys.nil?
+
       raw = ''
-      signature_keys.sort{|a, b| a <=> b}.each{|key| raw += "#{key}|#{data[key]}|" }
+      (signature_keys << :key).sort{|a, b| a <=> b}.each{|key| raw += "#{key}|#{data[key]}|" }
       data[:sig] = Digest::SHA1.hexdigest(raw + (@configuration.api_secret || ''))
     end
     def url_encode(data)
       URI.encode_www_form(data)
     end
     def handle_response(response)
-      data = JSON.parse(response.body)
+      data = response['Content-Type'] =~ /application\/json/ ? JSON.parse(response.body) : response.body
       return data if response.is_a?(Net::HTTPSuccess)
       raise Little::Error.new(response.code, data)
     end
