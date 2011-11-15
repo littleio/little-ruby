@@ -54,7 +54,7 @@ describe 'sender' do
   it "signs a post request with the specified value" do
     setup_configuration({:api_key => 'the-key', :api_secret => 'shhh'})
     stub_http(:post).should_receive(:post) do |url, data, headers|
-      data.should include('sig=02cefd8d116f09e8532cea0ba68349c4f7a96fdb')
+      data.should include('sig=b5ff522ffb6ecc97b3e9b7d43159d17a5bcca115')
       SuccessResponse.blank
     end
     Little::Sender.new(@configuration).post_request(:test, {:data => '2', :time => 1232}, [:data])  
@@ -63,7 +63,7 @@ describe 'sender' do
   it "signs a get request with the specified value" do
     setup_configuration({:api_key => 'the-key2', :api_secret => 'sh2'})
     stub_http(:get).should_receive(:get) do |url, headers|
-      url.should include('sig=dc8ded1987513d805452f441e8eee3fa4c116e0d')
+      url.should include('sig=9609eb851b1f1882f3d7ddf1cc66290984f859f1')
       SuccessResponse.blank
     end
     Little::Sender.new(@configuration).get_request(:test, {:leto => 'ghanima', :like => 'spice'}, [:leto])
