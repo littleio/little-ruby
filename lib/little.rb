@@ -2,6 +2,7 @@ require 'little/version'
 require 'little/error'
 require 'little/configuration'
 require 'little/like'
+require 'little/tag'
 require 'little/sender'
 
 module Little
