@@ -113,7 +113,12 @@ describe 'sender' do
     setup_configuration({})
     stub_http(:get).stub!(:get).and_return(SuccessResponse.new('{"way-to-go": true}'))
     Little::Sender.new(@configuration).get_request(:likes, {}, nil).should == {'way-to-go' => true}
-
+  end
+  
+  it "returns nil when no data is sent" do
+    setup_configuration({})
+    stub_http(:get).stub!(:get).and_return(SuccessResponse.new(''))
+    Little::Sender.new(@configuration).get_request(:likes, {}, nil).should be_nil
   end
 
   
@@ -150,9 +155,10 @@ describe 'sender' do
       @body = body
     end
     def[](key)
-      return 'application/json'
+      return 'application/json' if key == 'Content-Type'
+      return body.length.to_s if key == 'Content-Length'
+      raise ArgumentError.new("don't know what to return for #{key}")
     end
-    
     def self.blank
       SuccessResponse.new('{}')
     end

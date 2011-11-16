@@ -5,6 +5,9 @@ module Little
       d[:data] = data if data
       Little.post(:tags, d, [:user])
     end
+    def self.get_by_id(id, shared_only = true)
+      Little.get(:tags, {:id => id}, shared_only ? nil : [:id])
+    end
     def self.user_tags(user, page, records, shared_only = true, asset = nil)
       data = {:user => user, :page => page, :records => records}
       data[:asset] = asset if asset

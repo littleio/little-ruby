@@ -44,7 +44,13 @@ module Little
       URI.encode_www_form(data)
     end
     def handle_response(response)
-      data = response['Content-Type'] =~ /application\/json/ ? JSON.parse(response.body) : response.body
+      if response['Content-Length'] == '0'
+        data = nil
+      elsif response['Content-Type'] =~ /application\/json/
+        data = JSON.parse(response.body) 
+      else
+         response.body
+       end
       return data if response.is_a?(Net::HTTPSuccess)
       raise Little::Error.new(response.code, data)
     end
