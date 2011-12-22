@@ -60,6 +60,15 @@ describe 'tag' do
     Little.should_receive(:get).with(:tags, {:asset => 'grapes', :count => true}).and_return(33)
     Little::Tag.asset_tag_count('grapes').should == 33
   end
-
+  
+  it "gets a tag by id for shared only" do
+    Little.should_receive(:get).with(:tags, {:id => 123}, nil).and_return('abc')
+    Little::Tag.get_by_id(123).should == 'abc'
+  end
+  
+  it "gets a tag by id for non shared" do
+    Little.should_receive(:get).with(:tags, {:id => 3}, [:id]).and_return('a')
+    Little::Tag.get_by_id(3, false).should == 'a'
+  end
 
 end

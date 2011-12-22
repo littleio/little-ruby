@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'like' do
   it "adds a like" do
-    Little.should_receive(:post).with(:likes, {:user => 'leto', :asset => 'spice'}, [:user])
-    Little::Like.add('leto', 'spice')
+    Little.should_receive(:post).with(:likes, {:user => 'leto', :asset => 'spice', :category => 3}, [:user])
+    Little::Like.add('leto', 'spice', 3)
   end
   
   it "gets whether a user liked an asset" do
@@ -21,9 +21,24 @@ describe 'like' do
     Little::Like.user_like_count('jessica').should == 22
   end
 
-  it "gets an assets liked by'" do
+  it "gets an assets liked by" do
+    Little.should_receive(:get).with(:likes, {:asset => 'goku', :page => 4, :records => 10}).and_return(6)
+    Little::Like.asset_liked_by('goku', 4, 10).should == 6
+  end
+  
+  it "gets an assets liked count" do
     Little.should_receive(:get).with(:likes, {:asset => 'dragonballs', :count => true}).and_return(7)
     Little::Like.asset_like_count('dragonballs').should == 7
+  end
+  
+  it "gets assets by category" do
+    Little.should_receive(:get).with(:likes, {:category => 77, :page => 2, :records => 11}).and_return(6)
+    Little::Like.by_category(77, 2, 11).should == 6
+  end
+  
+  it "asset count by category'" do
+    Little.should_receive(:get).with(:likes, {:category => 'worms', :count => true}).and_return(5)
+    Little::Like.by_category_count('worms').should == 5
   end
 
 end
