@@ -22,8 +22,8 @@ describe 'like' do
   end
 
   it "gets an assets liked by" do
-    Little.should_receive(:get).with(:likes, {:asset => 'goku', :page => 4, :records => 10}).and_return(6)
-    Little::Like.asset_liked_by('goku', 4, 10).should == 6
+    Little.should_receive(:get).with(:likes, {:asset => 'goku', :type => 2, :page => 4, :records => 10}).and_return(6)
+    Little::Like.asset_liked_by('goku', 2, 4, 10).should == 6
   end
   
   it "gets an assets liked count" do
