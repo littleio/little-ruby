@@ -1,7 +1,7 @@
 module Little
   class Like
-    def self.add(user, asset, category)
-      Little.post(:likes, {:user => user, :asset => asset, :category => category}, [:user])
+    def self.add(user, asset, type)
+      Little.post(:likes, {:user => user, :asset => asset, :type => type}, [:user])
     end
     def self.user_likes_asset(user, asset)
       Little.get(:likes, {:user => user, :asset => asset})
@@ -18,11 +18,11 @@ module Little
     def self.asset_like_count(asset)
       Little.get(:likes, {:asset => asset, :count => true})
     end
-    def self.by_category(category, page, records)
-      Little.get(:likes, {:category => category, :page => page, :records => records})
+    def self.by_type(type, page, records)
+      Little.get(:likes, {:type => type, :page => page, :records => records})
     end
-    def self.by_category_count(category)
-      Little.get(:likes, {:category => category, :count => true})
+    def self.by_type_count(type)
+      Little.get(:likes, {:type => type, :count => true})
     end
   end
 end

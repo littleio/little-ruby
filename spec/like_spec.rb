@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'like' do
   it "adds a like" do
-    Little.should_receive(:post).with(:likes, {:user => 'leto', :asset => 'spice', :category => 3}, [:user])
+    Little.should_receive(:post).with(:likes, {:user => 'leto', :asset => 'spice', :type => 3}, [:user])
     Little::Like.add('leto', 'spice', 3)
   end
   
@@ -31,14 +31,14 @@ describe 'like' do
     Little::Like.asset_like_count('dragonballs').should == 7
   end
   
-  it "gets assets by category" do
-    Little.should_receive(:get).with(:likes, {:category => 77, :page => 2, :records => 11}).and_return(6)
-    Little::Like.by_category(77, 2, 11).should == 6
+  it "gets assets by type" do
+    Little.should_receive(:get).with(:likes, {:type => 77, :page => 2, :records => 11}).and_return(6)
+    Little::Like.by_type(77, 2, 11).should == 6
   end
   
-  it "asset count by category'" do
-    Little.should_receive(:get).with(:likes, {:category => 'worms', :count => true}).and_return(5)
-    Little::Like.by_category_count('worms').should == 5
+  it "asset count by type'" do
+    Little.should_receive(:get).with(:likes, {:type => 'worms', :count => true}).and_return(5)
+    Little::Like.by_type_count('worms').should == 5
   end
 
 end
