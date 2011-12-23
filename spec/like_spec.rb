@@ -7,8 +7,8 @@ describe 'like' do
   end
   
   it "gets whether a user liked an asset" do
-    Little.should_receive(:get).with(:likes, {:user => 'leto', :asset => 'spice'}).and_return('yes')
-    Little::Like.user_likes_asset('leto', 'spice').should == 'yes'
+    Little.should_receive(:get).with(:likes, {:user => 'leto', :asset => 'spice', :type => 11}).and_return('yes')
+    Little::Like.user_likes_asset('leto', 'spice', 11).should == 'yes'
   end
   
   it "gets a user's likes" do
@@ -27,8 +27,8 @@ describe 'like' do
   end
   
   it "gets an assets liked count" do
-    Little.should_receive(:get).with(:likes, {:asset => 'dragonballs', :count => true}).and_return(7)
-    Little::Like.asset_like_count('dragonballs').should == 7
+    Little.should_receive(:get).with(:likes, {:asset => 'dragonballs', :type => 2, :count => true}).and_return(7)
+    Little::Like.asset_like_count('dragonballs', 2).should == 7
   end
   
   it "gets assets by type" do
