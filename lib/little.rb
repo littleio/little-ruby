@@ -4,6 +4,7 @@ require 'little/configuration'
 require 'little/like'
 require 'little/tag'
 require 'little/attempt'
+require 'little/notification'
 require 'little/sender'
 
 module Little

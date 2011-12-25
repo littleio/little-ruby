@@ -19,7 +19,6 @@ describe 'attempt' do
   it "gets a specified number of past attempts" do
     Little.should_receive(:get).with(:attempts, {:user => 'duke', :count => 10}, [:user, :count])
     Little::Attempt.get('duke', 10)
-
   end
   
 end
