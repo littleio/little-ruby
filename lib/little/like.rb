@@ -3,6 +3,9 @@ module Little
     def self.add(user, asset, type)
       Little.post(:likes, {:user => user, :asset => asset, :type => type}, [:user])
     end
+    def self.sign_add(user)
+      Little.sign(:likes, {:user => user})
+    end
     def self.user_likes_asset(user, asset, type)
       Little.get(:likes, {:user => user, :asset => asset, :type => type})
     end

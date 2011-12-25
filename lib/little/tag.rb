@@ -5,6 +5,9 @@ module Little
       d[:data] = data if data
       Little.post(:tags, d, [:user])
     end
+    def self.sign_add(user)
+      Little.sign(:tags, {:user => user})
+    end
     def self.get_by_id(id, shared_only = true)
       Little.get(:tags, {:id => id}, shared_only ? nil : [:id])
     end
@@ -23,6 +26,9 @@ module Little
         data[:type] = type
       end
       Little.get(:tags, data, keys_to_sign_with(!asset.nil?, shared_only))
+    end
+    def self.sign_user_tags(user, asset = nil, type = nil)
+      asset.nil? ? Little.sign(:tags, {:user => user}) : Little.sign(:tags, {:user => user, :asset => asset, :type => type})
     end
     def self.asset_tags(asset, type, page, records)
       Little.get(:tags, {:asset => asset, :type => type, :page => page, :records => records})

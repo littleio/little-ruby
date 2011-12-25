@@ -35,10 +35,7 @@ module Little
     def complete_data(resource, data, signature_keys)
       data[:key] = @configuration.api_key
       return if signature_keys.nil?
-
-      raw = ''
-      (signature_keys << :key).sort{|a, b| a <=> b}.each{|key| raw += "#{key}|#{data[key]}|" }
-      data[:sig] = Digest::SHA1.hexdigest(raw + @configuration.api_secret + '|' + resource.to_s)
+      data[:sig] = Little.sign(resource, data.select{|k,v| signature_keys.include?(k)})
     end
     def url_encode(data)
       URI.encode_www_form(data)

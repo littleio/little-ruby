@@ -27,6 +27,12 @@ module Little
     def get(resource, data, signature_keys = nil)
       sender.get_request(resource, data, signature_keys)
     end
+    
+    def sign(resource, params)
+      params[:key] = configuration.api_key
+      raw = params.sort{|a, b| a[0] <=> b[0]}.join('|') + '|' + configuration.api_secret + '|' + resource.to_s
+      Digest::SHA1.hexdigest(raw)
+    end
 
   end
 end

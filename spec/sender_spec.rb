@@ -124,12 +124,14 @@ describe 'sender' do
   
   private 
   def setup_configuration(options)
-    @configuration = Little::Configuration.new
-    options.each do |k,v|
-      @configuration.send(:"#{k}=", v)
+    Little.configure do |config|
+      options.each do |k,v|
+        config.send(:"#{k}=", v)
+      end
     end
   end
   def stub_http(method, r = nil)
+    @configuration = Little.configuration
     http = Net::HTTP.new(@configuration.host, @configuration.port)
     Net::HTTP.should_receive(:new).with(@configuration.host, @configuration.port).and_return(http)
     Net::HTTP.should_receive(:Proxy).with(@configuration.proxy_host, @configuration.proxy_port, @configuration.proxy_user, @configuration.proxy_pass).and_return(Net::HTTP)

@@ -11,6 +11,10 @@ describe 'tag' do
     Little::Tag.add('jessica', 'paul', 4, false, 'abc|123')
   end
   
+  it "signs the add" do
+    Little::Tag.sign_add('jessica').should == '647c27ea75be9d4720239b07d732fc71377973e5'
+  end
+  
   it "gets a user's publis tags" do
     Little.should_receive(:get).with(:tags, {:user => 'leto', :page => 4, :records => 5}, nil).and_return('yes')
     Little::Tag.user_tags('leto', 4, 5, true).should == 'yes'
@@ -69,6 +73,14 @@ describe 'tag' do
   it "gets a tag by id for non shared" do
     Little.should_receive(:get).with(:tags, {:id => 3}, [:id]).and_return('a')
     Little::Tag.get_by_id(3, false).should == 'a'
+  end
+  
+  it "signs the user tags without asset" do
+    Little::Tag.sign_user_tags('paul').should == '779534cdf94c41a246fdb573c4e3237f5b21e005'
+  end
+  
+  it "signs the user tags with an asset" do
+    Little::Tag.sign_user_tags('goku', 'power', 9000).should == '8a6fdd500e51057e0ab2f1a9b10f3902df12faff'
   end
 
 end

@@ -6,5 +6,8 @@ module Little
     def self.respond(user, notification_id, response)
       Little.post(:notifications, {:user => user, :notification => notification_id, :response => response}, [:user, :notification])
     end
+    def self.sign_respond(user, notification_id)
+      Little.sign(:notification, {:user => user, :notification => notification_id})
+    end
   end
 end

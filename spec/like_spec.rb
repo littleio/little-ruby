@@ -6,6 +6,10 @@ describe 'like' do
     Little::Like.add('leto', 'spice', 3)
   end
   
+  it "signs the add" do
+    Little::Like.sign_add('vegeta').should == 'f3b82990a83160569b8f5cd8866eebb3593a1b1e'
+  end
+  
   it "gets whether a user liked an asset" do
     Little.should_receive(:get).with(:likes, {:user => 'leto', :asset => 'spice', :type => 11}).and_return('yes')
     Little::Like.user_likes_asset('leto', 'spice', 11).should == 'yes'
