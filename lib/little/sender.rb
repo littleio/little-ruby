@@ -12,15 +12,25 @@ module Little
     end
 
     def get_request(resource, data, signature_keys)
-      http = create_http(resource, data, signature_keys)
-      response = http.get("#{BASE_URL}#{resource}?#{url_encode(data)}", HEADERS)
-      handle_response(response)
+      response = nil
+      begin
+        http = create_http(resource, data, signature_keys)
+        response = http.get("#{BASE_URL}#{resource}?#{url_encode(data)}", HEADERS)
+      rescue => e
+        raise Little::Error.new(-1, 0)
+      end
+      handle_response(response) unless response.nil?
     end
     
     def post_request(resource, data, signature_keys)
-      http = create_http(resource, data, signature_keys)
-      response = http.post(BASE_URL + resource.to_s, url_encode(data), HEADERS)
-      handle_response(response)
+      response = nil
+      begin
+        http = create_http(resource, data, signature_keys)
+        response = http.post(BASE_URL + resource.to_s, url_encode(data), HEADERS)
+      rescue => e
+        raise Little::Error.new(-2, e)
+      end
+      handle_response(response) unless response.nil?
     end
     
     private
