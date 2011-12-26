@@ -4,7 +4,10 @@ module Little
       Little.post(:attempts, {:user => user, :ip => ip, :ok => ok}, [:user, :ip, :ok])
     end
     def self.get(user, count = 1)
-      Little.get(:attempts, {:user => user, :count => count}, [:user, :count])
+      Little.get(:attempts, {:user => user, :count => count}, [:user])
+    end
+    def self.sign_get(user)
+      Little.sign(:attempts, {:user => user})
     end
   end
 end

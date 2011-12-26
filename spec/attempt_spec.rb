@@ -12,13 +12,16 @@ describe 'attempt' do
   end
   
   it "gets the last attempt" do
-    Little.should_receive(:get).with(:attempts, {:user => 'jessica', :count => 1}, [:user, :count])
+    Little.should_receive(:get).with(:attempts, {:user => 'jessica', :count => 1}, [:user])
     Little::Attempt.get('jessica')
   end
   
   it "gets a specified number of past attempts" do
-    Little.should_receive(:get).with(:attempts, {:user => 'duke', :count => 10}, [:user, :count])
+    Little.should_receive(:get).with(:attempts, {:user => 'duke', :count => 10}, [:user])
     Little::Attempt.get('duke', 10)
   end
   
+  it "signs the get" do
+    Little::Attempt.sign_get('abc123').should == 'fa0a9cea177651eaf51efc0faff57fdb0d70b2ea'
+  end
 end
