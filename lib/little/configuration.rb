@@ -21,7 +21,7 @@ module Little
     def initialize
       @secure = true
       @host = 'api.little.io'
-      @http_open_timeout = 2
+      @http_open_timeout = 5
       @http_read_timeout = 5
     end
   end

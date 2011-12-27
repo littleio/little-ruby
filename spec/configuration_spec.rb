@@ -4,7 +4,7 @@ describe 'configurations' do
   it "provide default values" do
     assert_default_config :host, 'api.little.io'
     assert_default_config :secure, true
-    assert_default_config :http_open_timeout, 2
+    assert_default_config :http_open_timeout, 5
     assert_default_config :http_read_timeout, 5
     assert_default_is_nil :api_key, :api_secret, :proxy_host, :proxy_port, :proxy_user, :proxy_pass
   end
