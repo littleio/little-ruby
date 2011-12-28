@@ -1,6 +1,10 @@
 # little.io Ruby Library
 This is a ruby driver for the <http://little.io> services.
 
+# Installation
+
+	gem install little
+
 # Configuration
 On startup, you'll want to setup your api key and secret:
 
