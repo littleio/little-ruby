@@ -15,6 +15,15 @@ describe 'tag' do
     Little::Tag.sign_add('jessica').should == '647c27ea75be9d4720239b07d732fc71377973e5'
   end
   
+  it "deletes a tag" do
+    Little.should_receive(:delete).with(:tags, {:id => 'w00t'}, [:id])
+    Little::Tag.delete('w00t')
+  end
+  
+  it "signs the delete" do
+    Little::Tag.sign_delete('booo').should == 'b8b30d7db292d3eb556dca4b5a7371634084ad21'
+  end
+  
   it "gets a user's publis tags" do
     Little.should_receive(:get).with(:tags, {:user => 'leto', :page => 4, :records => 5}, nil).and_return('yes')
     Little::Tag.user_tags('leto', 4, 5, true).should == 'yes'

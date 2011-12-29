@@ -8,8 +8,17 @@ module Little
     def self.sign_add(user)
       Little.sign(:tags, {:user => user})
     end
+    def self.delete(id)
+      Little.delete(:tags, {:id => id}, [:id])
+    end
+    def self.sign_delete(id)
+      Little.sign(:tags, {:id => id})
+    end
     def self.get_by_id(id, shared_only = true)
       Little.get(:tags, {:id => id}, shared_only ? nil : [:id])
+    end
+    def self.sign_get_by_id(id)
+      Little.sign(:tags, {:id => id})
     end
     def self.user_tags(user, page, records, shared_only = true)
       data = {:user => user, :page => page, :records => records}

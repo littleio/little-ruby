@@ -7,7 +7,7 @@ describe 'like' do
   end
   
   it "deletes a like" do
-    Little.should_receive(:delete).with(:likes, {:user => 'jessica', :asset => 'baron', :type => 5}, [:user])
+    Little.should_receive(:delete).with(:likes, {:user => 'jessica', :asset => 'baron', :type => 5}, [:user, :asset, :type])
     Little::Like.delete('jessica', 'baron', 5)
   end
   
