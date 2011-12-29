@@ -3,6 +3,9 @@ module Little
     def self.add(user, asset, type)
       Little.post(:likes, {:user => user, :asset => asset, :type => type}, [:user])
     end
+    def self.delete(user, asset, type)
+      Little.delete(:likes, {:user => user, :asset => asset, :type => type}, [:user])
+    end
     def self.sign_add(user)
       Little.sign(:likes, {:user => user})
     end

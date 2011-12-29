@@ -6,6 +6,11 @@ describe 'like' do
     Little::Like.add('leto', 'spice', 3)
   end
   
+  it "deletes a like" do
+    Little.should_receive(:delete).with(:likes, {:user => 'jessica', :asset => 'baron', :type => 5}, [:user])
+    Little::Like.delete('jessica', 'baron', 5)
+  end
+  
   it "signs the add" do
     Little::Like.sign_add('vegeta').should == 'f3b82990a83160569b8f5cd8866eebb3593a1b1e'
   end
