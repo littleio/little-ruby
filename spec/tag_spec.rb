@@ -27,12 +27,12 @@ describe 'tag' do
   
   it "gets a user's public tags for an asset" do
     Little.should_receive(:get).with(:tags, {:user => 'leto', :asset => 'spice', :type => 22, :page => 4, :records => 5}, nil).and_return('yes')
-    Little::Tag.user_tags('leto', 4, 5, true, 'spice', 22).should == 'yes'
+    Little::Tag.user_tags_for_asset('leto', 'spice', 22, 4, 5, true).should == 'yes'
   end
 
   it "gets all of a user's tags for an asset" do
     Little.should_receive(:get).with(:tags, {:user => 'yay', :asset => 123, :type => 12, :page => 1, :records => 10}, [:user, :asset, :type]).and_return('no')
-    Little::Tag.user_tags('yay', 1, 10, false, 123, 12).should == 'no'
+    Little::Tag.user_tags_for_asset('yay', 123, 12, 1, 10, false).should == 'no'
   end
   
   it "gets a user's public tag count" do
@@ -42,7 +42,7 @@ describe 'tag' do
 
   it "gets a user's public tag count for an asset" do
     Little.should_receive(:get).with(:tags, {:user => 'user', :asset => 'ass', :type => 3, :count => true}, nil).and_return('no')
-    Little::Tag.user_tag_count('user', true, 'ass', 3).should == 'no'
+    Little::Tag.user_tag_for_asset_count('user', 'ass', 3, true).should == 'no'
   end
   
   it "gets a user's complete tag count" do
@@ -52,7 +52,7 @@ describe 'tag' do
 
   it "gets a user's complete tag for an asset" do
     Little.should_receive(:get).with(:tags, {:user => 'user', :asset => 'abc', :type => 1, :count => true}, [:user, :asset, :type]).and_return('no')
-    Little::Tag.user_tag_count('user', false, 'abc', 1).should == 'no'
+    Little::Tag.user_tag_for_asset_count('user', 'abc', 1, false).should == 'no'
   end
   
   it "gets the tags for an asset" do
@@ -80,7 +80,7 @@ describe 'tag' do
   end
   
   it "signs the user tags with an asset" do
-    Little::Tag.sign_user_tags('goku', 'power', 9000).should == '8a6fdd500e51057e0ab2f1a9b10f3902df12faff'
+    Little::Tag.sign_user_tags_for_asset('goku', 'power', 9000).should == '8a6fdd500e51057e0ab2f1a9b10f3902df12faff'
   end
 
 end
