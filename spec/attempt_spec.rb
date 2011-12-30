@@ -16,6 +16,11 @@ describe 'attempt' do
     Little::Attempt.get('jessica')
   end
   
+  it "gets the previous successful attempt" do
+    Little.should_receive(:get).with(:attempts, {:user => 'goku'}, [:user])
+    Little::Attempt.get_previous_successful('goku')
+  end
+  
   it "gets a specified number of past attempts" do
     Little.should_receive(:get).with(:attempts, {:user => 'duke', :count => 10}, [:user])
     Little::Attempt.get('duke', 10)
