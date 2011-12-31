@@ -68,7 +68,7 @@ module Little
     
     # gets the number of assets for a type
     def self.count_by_type(type)
-      Little.get(:assets, {:type => type, :count => true}, nil, 'count')
+      Little.get(:assets, {:type => type}, nil, 'count')
     end
   end
 end

@@ -75,7 +75,7 @@ describe 'asset' do
   end
   
   it "asset count by type'" do
-    Little.should_receive(:get).with(:assets, {:type => 10, :count => true}, nil, 'count').and_return(5)
+    Little.should_receive(:get).with(:assets, {:type => 10}, nil, 'count').and_return(5)
     Little::Asset.count_by_type(10).should == 5
   end
 
