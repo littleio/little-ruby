@@ -10,12 +10,12 @@ module Little
     def self.add(user, asset, type, share, data = nil)
       d = {:user => user, :asset => asset, :share => share, :type => type}
       d[:data] = data if data
-      Little.post(:tags, d, [:user])
+      Little.post(:tags, d, [:user, :asset, :type])
     end
     
     # generates a signature for adding a tag (useful when using the javascript library)
-    def self.sign_add(user)
-      Little.sign(:tags, {:user => user})
+    def self.sign_add(user, asset, type)
+      Little.sign(:tags, {:user => user, :asset => asset, :type => type})
     end
     
     # removes a tag for a user to an asset

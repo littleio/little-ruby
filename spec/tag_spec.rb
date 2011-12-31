@@ -2,17 +2,17 @@ require 'spec_helper'
 
 describe 'tag' do
   it "adds a tag with no data" do
-    Little.should_receive(:post).with(:tags, {:user => 'leto', :asset => 'spice', :type => 3, :share => true}, [:user])
+    Little.should_receive(:post).with(:tags, {:user => 'leto', :asset => 'spice', :type => 3, :share => true}, [:user, :asset, :type])
     Little::Tag.add('leto', 'spice', 3, true)
   end
   
   it "adds a tag with data" do
-    Little.should_receive(:post).with(:tags, {:user => 'jessica', :asset => 'paul', :type => 4, :share => false, :data => 'abc|123'}, [:user])
+    Little.should_receive(:post).with(:tags, {:user => 'jessica', :asset => 'paul', :type => 4, :share => false, :data => 'abc|123'}, [:user, :asset, :type])
     Little::Tag.add('jessica', 'paul', 4, false, 'abc|123')
   end
   
   it "signs the add" do
-    Little::Tag.sign_add('jessica').should == '647c27ea75be9d4720239b07d732fc71377973e5'
+    Little::Tag.sign_add('jessica', 'ass', 1000).should == 'd784120a247d022679d6c839c5a9de9d55d9149e'
   end
   
   it "deletes a tag" do

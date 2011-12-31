@@ -4,13 +4,13 @@ describe 'sender' do
   it "properly sets up http objects for post" do  #ugh...
     setup_configuration({:proxy_host => 'proxy', :proxy_port => 8080, :proxy_user => 'secret', :proxy_pass => 'sauce'})
     http = stub_http(:post, SuccessResponse.new('{}'))
-    Little::Sender.new(@configuration).post_request(:test, {}, nil)
+    Little::Sender.new(@configuration).post_request(:test, {}, nil, nil)
   end
 
   it "properly sets up http objects for get" do  #ugh...
     setup_configuration({:proxy_host => 'proxy', :proxy_port => 8080, :proxy_user => 'secret', :proxy_pass => 'sauce'})
     http = stub_http(:get, SuccessResponse.new('{}'))
-    Little::Sender.new(@configuration).get_request(:test, {}, nil)
+    Little::Sender.new(@configuration).get_request(:test, {}, nil, nil)
   end
   
   it "adds the api_key to a post request" do
@@ -19,7 +19,7 @@ describe 'sender' do
       data.should include('key=the-key')
       SuccessResponse.blank
     end
-    Little::Sender.new(@configuration).post_request(:test, {}, nil)  
+    Little::Sender.new(@configuration).post_request(:test, {}, nil, nil)  
   end
   
   it "adds the api_key to a get request" do
@@ -29,7 +29,7 @@ describe 'sender' do
       SuccessResponse.blank
     end
     sender = Little::Sender.new(@configuration)
-    sender.get_request(:test, {}, nil)  
+    sender.get_request(:test, {}, nil, nil)  
   end
   
   it "does not sigm a post request if no key is specified" do
@@ -39,7 +39,7 @@ describe 'sender' do
       SuccessResponse.blank
     end
     sender = Little::Sender.new(@configuration)
-    sender.post_request(:test, {:data => '2'}, nil)  
+    sender.post_request(:test, {:data => '2'}, nil, nil)  
   end
   
   it "does not sign a request if no keys are specified" do
@@ -48,7 +48,7 @@ describe 'sender' do
       url.should_not include('sig=')
       SuccessResponse.blank
     end
-    Little::Sender.new(@configuration).get_request(:test, {:leto => 'ghanima'}, nil)  
+    Little::Sender.new(@configuration).get_request(:test, {:leto => 'ghanima'}, nil, nil)  
   end
   
   it "signs a post request with the specified value" do
@@ -57,7 +57,7 @@ describe 'sender' do
       data.should include('sig=b5ff522ffb6ecc97b3e9b7d43159d17a5bcca115')
       SuccessResponse.blank
     end
-    Little::Sender.new(@configuration).post_request(:test, {:data => '2', :time => 1232}, [:data])  
+    Little::Sender.new(@configuration).post_request(:test, {:data => '2', :time => 1232}, [:data], nil)  
   end
   
   it "signs a get request with the specified value" do
@@ -66,7 +66,7 @@ describe 'sender' do
       url.should include('sig=9609eb851b1f1882f3d7ddf1cc66290984f859f1')
       SuccessResponse.blank
     end
-    Little::Sender.new(@configuration).get_request(:test, {:leto => 'ghanima', :like => 'spice'}, [:leto])
+    Little::Sender.new(@configuration).get_request(:test, {:leto => 'ghanima', :like => 'spice'}, [:leto], nil)
   end
   
   it "sends a post to the correct URL" do
@@ -75,23 +75,32 @@ describe 'sender' do
       url.should include('/api/v1/likes')
       SuccessResponse.blank
     end
-    Little::Sender.new(@configuration).post_request(:likes, {}, nil)
+    Little::Sender.new(@configuration).post_request(:likes, {}, nil, nil)
   end
   
-  it "sends a get to the correct URL" do
+  it "sends a post to the correct URL with extra path" do
     setup_configuration({})
-    stub_http(:get).should_receive(:get) do |url, headers|
-      url.should include('/api/v1/tags')
+    stub_http(:post).should_receive(:post) do |url, data, headers|
+      url.should include('/api/v1/likes/bbbbs')
       SuccessResponse.blank
     end
-    Little::Sender.new(@configuration).get_request(:tags, {}, nil)
+    Little::Sender.new(@configuration).post_request(:likes, {}, nil, 'bbbbs')
+  end
+  
+  it "sends a get to the correct URL with extra path" do
+    setup_configuration({})
+    stub_http(:get).should_receive(:get) do |url, headers|
+      url.should include('/api/v1/tags/aaaaa1')
+      SuccessResponse.blank
+    end
+    Little::Sender.new(@configuration).get_request(:tags, {}, nil, 'aaaaa1')
   end
   
   it "throws an exception on http error for post" do
     setup_configuration({})
     stub_http(:post).stub!(:post).and_return(ErrorResponse.new(400, '{"error": "invalid"}'))
     assert_error(400, {'error' => 'invalid'}) do
-      Little::Sender.new(@configuration).post_request(:likes, {}, nil)
+      Little::Sender.new(@configuration).post_request(:likes, {}, nil, nil)
     end
   end
   
@@ -99,26 +108,26 @@ describe 'sender' do
     setup_configuration({})
     stub_http(:post).stub!(:get).and_return(ErrorResponse.new(300, '{"blah": "tired"}'))
     assert_error(300, {'blah' => 'tired'}) do
-      Little::Sender.new(@configuration).get_request(:likes, {}, nil)
+      Little::Sender.new(@configuration).get_request(:likes, {}, nil, nil)
     end
   end
   
   it "posts returns the data on success" do
     setup_configuration({})
     stub_http(:post).stub!(:post).and_return(SuccessResponse.new('{"way-to-go": true}'))
-    Little::Sender.new(@configuration).post_request(:likes, {}, nil).should == {'way-to-go' => true}
+    Little::Sender.new(@configuration).post_request(:likes, {}, nil, nil).should == {'way-to-go' => true}
   end
   
   it "get returns the data on success" do
     setup_configuration({})
     stub_http(:get).stub!(:get).and_return(SuccessResponse.new('{"way-to-go": true}'))
-    Little::Sender.new(@configuration).get_request(:likes, {}, nil).should == {'way-to-go' => true}
+    Little::Sender.new(@configuration).get_request(:likes, {}, nil, nil).should == {'way-to-go' => true}
   end
   
   it "returns nil when no data is sent" do
     setup_configuration({})
     stub_http(:get).stub!(:get).and_return(SuccessResponse.new(''))
-    Little::Sender.new(@configuration).get_request(:likes, {}, nil).should be_nil
+    Little::Sender.new(@configuration).get_request(:likes, {}, nil, nil).should be_nil
   end
 
   

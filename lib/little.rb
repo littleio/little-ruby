@@ -1,7 +1,7 @@
 require 'little/version'
 require 'little/error'
 require 'little/configuration'
-require 'little/like'
+require 'little/asset'
 require 'little/tag'
 require 'little/attempt'
 require 'little/notification'
@@ -36,22 +36,25 @@ module Little #:nodoc
     end
     
     # Issues a POST request to the little.io service
-    def post(resource, data, signature_keys)
-      sender.post_request(resource, data, signature_keys)
+    # @param [String, Symbol] resource name of the resource (:tags, :likes, ...)
+    # @param [Hash] data data to send to the service
+    # @param [Array] signature_keys keys of the data used for signing (optional)
+    def post(resource, data, signature_keys, url = nil)
+      sender.post_request(resource, data, signature_keys, url)
     end
     # Issues a DELETE request to the little.io service
     # @param [String, Symbol] resource name of the resource (:tags, :likes, ...)
     # @param [Hash] data data to send to the service
     # @param [Array] signature_keys keys of the data used for signing (optional)
-    def delete(resource, data, signature_keys)
-      sender.delete_request(resource, data, signature_keys)
+    def delete(resource, data, signature_keys, url = nil)
+      sender.delete_request(resource, data, signature_keys, url)
     end
     # Issues a GET request to the little.io service
     # @param [String, Symbol] resource name of the resource (:tags, :likes, ...)
     # @param [Hash] data data to send to the service
     # @param [Array] signature_keys keys of the data used for signing (optional)
-    def get(resource, data, signature_keys = nil)
-      sender.get_request(resource, data, signature_keys)
+    def get(resource, data, signature_keys = nil, url = nil)
+      sender.get_request(resource, data, signature_keys, url)
     end
   end
 end

@@ -11,20 +11,20 @@ module Little
       @configuration = configuration
     end
 
-    def get_request(resource, data, signature_keys)
-      query_request(:get, resource, data, signature_keys)
+    def get_request(resource, data, signature_keys, url)
+      query_request(:get, resource, data, signature_keys, url)
     end
     
-    def delete_request(resource, data, signature_keys)
-      query_request(:delete, resource, data, signature_keys)
+    def delete_request(resource, data, signature_keys, url)
+      query_request(:delete, resource, data, signature_keys, url)
     end
     
-    def post_request(resource, data, signature_keys)
-      form_request(:post, resource, data, signature_keys)
+    def post_request(resource, data, signature_keys, url)
+      form_request(:post, resource, data, signature_keys, url)
     end
     
-    def put_request(resource, data, signature_keys)
-      form_request(:put, resource, data, signature_keys)
+    def put_request(resource, data, signature_keys, url)
+      form_request(:put, resource, data, signature_keys, url)
     end
     
     private
@@ -47,22 +47,27 @@ module Little
       URI.encode_www_form(data)
     end
     
-    def query_request(method, resource, data, signature_keys)
+    def query_request(method, resource, data, signature_keys, url)
       response = nil
       begin
         http = create_http(resource, data, signature_keys)
-        response = http.send(method, "#{BASE_URL}#{resource}?#{url_encode(data)}", HEADERS)
+        full_url = "#{BASE_URL}#{resource}"
+        full_url += "/#{url}" unless url.nil?
+        full_url += "?#{url_encode(data)}"
+        response = http.send(method, full_url, HEADERS)
       rescue => e
         raise Little::Error.new(-1, e)
       end
       handle_response(response) unless response.nil?
     end
     
-    def form_request(method, resource, data, signature_keys)
+    def form_request(method, resource, data, signature_keys, url)
       response = nil
       begin
         http = create_http(resource, data, signature_keys)
-        response = http.send(method, BASE_URL + resource.to_s, url_encode(data), HEADERS)
+        full_url = "#{BASE_URL}#{resource}"
+        full_url += "/#{url}" unless url.nil?
+        response = http.send(method, full_url, url_encode(data), HEADERS)
       rescue => e
         raise Little::Error.new(-2, e)
       end
