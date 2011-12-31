@@ -26,42 +26,42 @@ describe 'asset' do
   
   it "gets whether a user's assets" do
     Little.should_receive(:get).with(:assets, {:user => 'leto', :page => 11, :records => 1, :vote => nil, :rate => nil}).and_return('yes')
-    Little::Asset.user_assets('leto', 11, 1).should == 'yes'
+    Little::Asset.for_user('leto', 11, 1).should == 'yes'
   end
   
   it "gets a user's asset count" do
     Little.should_receive(:get).with(:assets, {:user => 'jessica', :count => true, :vote => nil, :rate => nil}).and_return(22)
-    Little::Asset.user_asset_count('jessica').should == 22
+    Little::Asset.for_user_count('jessica').should == 22
   end
   
   it "gets whether a user asset with filters" do
     Little.should_receive(:get).with(:assets, {:user => 'leto', :page => 5, :records => 7, :vote => true, :rate => false}).and_return('yes')
-    Little::Asset.user_assets('leto', 5, 7, true, false).should == 'yes'
+    Little::Asset.for_user('leto', 5, 7, true, false).should == 'yes'
   end
   
   it "gets a user's asset count with filters" do
     Little.should_receive(:get).with(:assets, {:user => 'jessica', :count => true, :vote => false, :rate => true}).and_return(22)
-    Little::Asset.user_asset_count('jessica', false, true).should == 22
+    Little::Asset.for_user_count('jessica', false, true).should == 22
   end
   
   it "gets an asset's users" do
     Little.should_receive(:get).with(:assets, {:asset => 'goku', :type => 2, :page => 4, :records => 10, :vote => nil, :rate => nil}).and_return(6)
-    Little::Asset.assets('goku', 2, 4, 10).should == 6
+    Little::Asset.for_asset('goku', 2, 4, 10).should == 6
   end
   
   it "gets an asset's user count" do
     Little.should_receive(:get).with(:assets, {:asset => 'dragonballs', :type => 2, :count => true, :vote => nil, :rate => nil}).and_return(7)
-    Little::Asset.asset_count('dragonballs', 2).should == 7
+    Little::Asset.for_asset_count('dragonballs', 2).should == 7
   end
   
   it "gets an asset's users with filters" do
     Little.should_receive(:get).with(:assets, {:asset => 'goku', :type => 2, :page => 4, :records => 10, :vote => false, :rate => true}).and_return(6)
-    Little::Asset.assets('goku', 2, 4, 10, false, true).should == 6
+    Little::Asset.for_asset('goku', 2, 4, 10, false, true).should == 6
   end
   
   it "gets an asset's user count with filters" do
     Little.should_receive(:get).with(:assets, {:asset => 'dragonballs', :type => 2, :count => true, :vote => true, :rate => false}).and_return(7)
-    Little::Asset.asset_count('dragonballs', 2, true, false).should == 7
+    Little::Asset.for_asset_count('dragonballs', 2, true, false).should == 7
   end
   
   it "gets best rated assets" do

@@ -37,22 +37,22 @@ module Little
     # gets all the user's assets
     # params [bool] vote true or false to get assets voted for or against, or nil to get all
     # params [bool] rated_only true or false to get assets the user rated, or nil to get all
-    def self.user_assets(user, page, records, vote = nil, rated_only = nil)
+    def self.for_user(user, page, records, vote = nil, rated_only = nil)
       Little.get(:assets, {:user => user, :page => page, :records => records, :vote => vote, :rate => rated_only})
     end
     
     # gets the number of assets the user likes
-    def self.user_asset_count(user, vote = nil, rated_only = nil)
+    def self.for_user_count(user, vote = nil, rated_only = nil)
       Little.get(:assets, {:user => user, :count => true, :vote => vote, :rate => rated_only})
     end
     
     # gets all the users who like an asset
-    def self.assets(asset, type, page, records, vote = nil, rated_only = nil)
+    def self.for_asset(asset, type, page, records, vote = nil, rated_only = nil)
       Little.get(:assets, {:asset => asset, :type => type, :page => page, :records => records, :vote => vote, :rate => rated_only})
     end
     
     # gets the number of users who like an asset
-    def self.asset_count(asset, type, vote = nil, rated_only = nil)
+    def self.for_asset_count(asset, type, vote = nil, rated_only = nil)
       Little.get(:assets, {:asset => asset, :type => type, :count => true, :vote => vote, :rate => rated_only})
     end
     
