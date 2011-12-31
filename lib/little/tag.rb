@@ -42,46 +42,46 @@ module Little
     end
     
     # gets all the tags for a user
-    def self.user_tags(user, page, records, shared_only = true)
+    def self.for_user(user, page, records, shared_only = true)
       data = {:user => user, :page => page, :records => records}
       Little.get(:tags, data, shared_only ? nil : [:user])
     end
     
     # gets all the assets liked for a user for a specific asset
-    def self.user_tags_for_asset(user, asset, type, page, records, shared_only = true)
+    def self.for_user_and_asset(user, asset, type, page, records, shared_only = true)
       data = {:user => user, :asset => asset, :type => type, :page => page, :records => records}
       Little.get(:tags, data, shared_only ? nil : [:user, :asset, :type])
     end
     
     # gets the number of tags for a user
-    def self.user_tag_count(user, shared_only = true)
+    def self.for_user_count(user, shared_only = true)
       data = {:user => user, :count => true}
       Little.get(:tags, data, shared_only ? nil : [:user])
     end
     
     # gets all the of tags for a user for a specific asset
-    def self.user_tag_for_asset_count(user, asset, type, shared_only = true)
+    def self.for_user_and_asset_count(user, asset, type, shared_only = true)
       data = {:user => user, :asset => asset, :type => type, :count => true}
       Little.get(:tags, data, shared_only ? nil : [:user, :asset, :type])
     end
     
     # generates a signature for getting a tags for a user (useful when using the javascript library)
-    def self.sign_user_tags(user)
+    def self.sign_for_user(user)
       Little.sign(:tags, {:user => user})
     end
     
     # generates a signature for getting a for a user for a specific asset (useful when using the javascript library)
-    def self.sign_user_tags_for_asset(user, asset, type)
+    def self.sign_for_user_and_asset(user, asset, type)
       Little.sign(:tags, {:user => user, :asset => asset, :type => type})
     end
     
     # gets all the shared tags for a specific asset
-    def self.asset_tags(asset, type, page, records)
+    def self.for_asset(asset, type, page, records)
       Little.get(:tags, {:asset => asset, :type => type, :page => page, :records => records})
     end
     
     # gets the number of shared tags for a specific asset
-    def self.asset_tag_count(asset, type)
+    def self.for_asset_count(asset, type)
       Little.get(:tags, {:asset => asset, :type => type, :count => true})
     end
   end
