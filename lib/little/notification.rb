@@ -14,7 +14,7 @@ module Little
     # @param [String] notificaiton_id the id of the notificaiton
     # @param [int] response the user's response
     def self.respond(user, notification_id, response)
-      Little.post(:notifications, {:user => user, :notification => notification_id, :response => response}, [:user, :notification])
+      Little.post(:notifications, {:user => user, :notification => notification_id, :response => response}, [:user, :notification], 'respond')
     end
     
     # generates a signature for sending a response(useful when using the javascript library)

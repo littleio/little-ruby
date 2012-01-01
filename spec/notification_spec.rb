@@ -7,7 +7,7 @@ describe 'notification' do
   end
   
   it "sends the response" do
-    Little.should_receive(:post).with(:notifications, {:user => 'paul', :notification => "324343", :response => 4}, [:user, :notification])
+    Little.should_receive(:post).with(:notifications, {:user => 'paul', :notification => "324343", :response => 4}, [:user, :notification], 'respond')
     Little::Notification.respond('paul', "324343", 4)
   end
   
