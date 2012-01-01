@@ -29,4 +29,9 @@ describe 'attempt' do
   it "signs the get" do
     Little::User.sign_attempts('abc123').should == '7f7243c4fe07cf9aca3ef0a12ec5ed951e85010f'
   end
+  
+  it "deletes a user" do
+    Little.should_receive(:delete).with(:users, {:user => 'noooo', :verify => 'kludge'}, [:user, :verify])
+    Little::User.delete('noooo')
+  end
 end

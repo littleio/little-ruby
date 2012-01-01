@@ -16,12 +16,12 @@ describe 'tag' do
   end
   
   it "deletes a tag" do
-    Little.should_receive(:delete).with(:tags, {:id => 'w00t'}, [:id])
+    Little.should_receive(:delete).with(:tags, {:id => 'w00t', :verify => 'kludge'}, [:id, :verify])
     Little::Tag.delete('w00t')
   end
   
   it "signs the delete" do
-    Little::Tag.sign_delete('booo').should == 'b8b30d7db292d3eb556dca4b5a7371634084ad21'
+    Little::Tag.sign_delete('booo').should == '27bf3cedda1faf7323d8b7329d92a8fad5cf7ded'
   end
   
   it "gets a user's publis tags" do

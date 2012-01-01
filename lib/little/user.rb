@@ -26,5 +26,11 @@ module Little
     def self.sign_attempts(user)
       Little.sign(:users, {:user => user})
     end
+    
+    # deletes the user from the system, irrevocably purging all login attempts, assets, tags, 
+    # notifications responses and so on for the user
+    def self.delete(user)
+      Little.delete(:users, {:user => user, :verify => 'kludge'}, [:user, :verify])
+    end
   end
 end

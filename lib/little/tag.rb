@@ -21,12 +21,12 @@ module Little
     # removes a tag for a user to an asset
     # @param [String] id the tag's id
     def self.delete(id)
-      Little.delete(:tags, {:id => id}, [:id])
+      Little.delete(:tags, {:id => id, :verify => 'kludge'}, [:id, :verify])
     end
     
     # generates a signature for deleting a tag (useful when using the javascript library)
     def self.sign_delete(id)
-      Little.sign(:tags, {:id => id})
+      Little.sign(:tags, {:id => id, :verify => 'kludge'})
     end
     
     # gets a tag by id
