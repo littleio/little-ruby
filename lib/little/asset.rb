@@ -70,5 +70,10 @@ module Little
     def self.count_by_type(type)
       Little.get(:assets, {:type => type}, nil, 'count')
     end
+    
+    # deletes the asset from the system, irrevocably purging assets and tags
+    def self.delete(asset, type)
+      Little.delete(:assets, {:asset => asset, :type => type, :verify => 'kludge'}, [:asset, :type, :verify])
+    end
   end
 end

@@ -78,5 +78,10 @@ describe 'asset' do
     Little.should_receive(:get).with(:assets, {:type => 10}, nil, 'count').and_return(5)
     Little::Asset.count_by_type(10).should == 5
   end
+  
+  it "deletes an asset" do
+    Little.should_receive(:delete).with(:assets, {:asset => 'nooo', :type => 99, :verify => 'kludge'}, [:asset, :type, :verify])
+    Little::Asset.delete('nooo', 99)
+  end
 
 end
