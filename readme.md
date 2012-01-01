@@ -34,4 +34,4 @@ The driver will automatically include the signature. However, signing helpers ar
 # Usage
 Once configured the services can be invoked via various methods:
 
-	Little::Attempt.add(user, request.remote_ip, true)
+	Little::User.login_attempt(user, request.remote_ip, true)

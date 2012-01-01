@@ -3,7 +3,7 @@ require 'little/error'
 require 'little/configuration'
 require 'little/asset'
 require 'little/tag'
-require 'little/attempt'
+require 'little/user'
 require 'little/notification'
 require 'little/sender'
 
